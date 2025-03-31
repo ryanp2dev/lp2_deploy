@@ -1,11 +1,17 @@
-# Usar a imagem oficial do Tomcat 9 (ou outra versão compatível)
+# Usar uma imagem oficial do OpenJDK 19
+FROM tomcat:9.0-jdk17-temurin
+
+# Usar a imagem base do Tomcat 9
 FROM tomcat:9.0
 
-# Copiar o arquivo WAR para a pasta webapps do Tomcat
-COPY target/turma-jsp-servlet /usr/local/tomcat/webapps/
+# Limpar os aplicativos padrão do Tomcat
+RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Expor a porta padrão do Tomcat
+# Copiar o arquivo .war e renomeá-lo para ROOT.war
+COPY turma-jsp-servlet.war /usr/local/tomcat/webapps/ROOT.war
+
+# Expõe a porta 8080 (padrão do Tomcat)
 EXPOSE 8080
 
-# Comando para iniciar o Tomcat
+# Inicia o Tomcat
 CMD ["catalina.sh", "run"]
