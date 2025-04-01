@@ -1,5 +1,5 @@
-# Usar a imagem do Tomcat com JDK 19
-FROM tomcat:9.0-jdk19-temurin
+# Usar a versão correta do Tomcat com JDK 17
+FROM tomcat:9.0-jdk17-temurin
 
 # Remover aplicativos padrão do Tomcat
 RUN rm -rf /usr/local/tomcat/webapps/*
@@ -7,7 +7,7 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 # Copiar o arquivo WAR para o Tomcat
 COPY turma-jsp-servlet.war /usr/local/tomcat/webapps/ROOT.war
 
-# Copiar o driver JDBC para o Tomcat
+# Copiar o driver PostgreSQL para o Tomcat
 COPY postgresql-42.5.0.jar /usr/local/tomcat/lib/
 
 # Passar a variável de ambiente para o Tomcat
