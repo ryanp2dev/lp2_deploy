@@ -1,17 +1,20 @@
-# Usar uma imagem oficial do OpenJDK 19
-FROM tomcat:9.0-jdk17-temurin
+# Usar a imagem do Tomcat com JDK 19
+FROM tomcat:9.0-jdk19-temurin
 
-# Usar a imagem base do Tomcat 9
-FROM tomcat:9.0
-
-# Limpar os aplicativos padrão do Tomcat
+# Remover aplicativos padrão do Tomcat
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copiar o arquivo .war e renomeá-lo para ROOT.war
+# Copiar o arquivo WAR para o Tomcat
 COPY turma-jsp-servlet.war /usr/local/tomcat/webapps/ROOT.war
 
-# Expõe a porta 8080 (padrão do Tomcat)
+# Copiar o driver JDBC para o Tomcat
+COPY postgresql-42.5.0.jar /usr/local/tomcat/lib/
+
+# Passar a variável de ambiente para o Tomcat
+ENV DB_PASSWORD=${DB_PASSWORD}
+
+# Expor a porta 8080
 EXPOSE 8080
 
-# Inicia o Tomcat
+# Iniciar o Tomcat
 CMD ["catalina.sh", "run"]
